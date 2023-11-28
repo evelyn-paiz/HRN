@@ -65,9 +65,9 @@ if __name__ == '__main__':
 
     parser.add_argument('--input_type', type=str, default='single_view',  # or 'multi_view'
                         help='reconstruct from single-view or multi-view')
-    parser.add_argument('--input_root', type=str, default='./assets/examples/single_view_image',
+    parser.add_argument('--input_root', type=str, default='./data/input',
                         help='directory of input images')
-    parser.add_argument('--output_root', type=str, default='./assets/examples/single_view_image_results',
+    parser.add_argument('--output_root', type=str, default='./data/output',
                         help='directory for saving results')
 
     args = parser.parse_args()

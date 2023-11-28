@@ -489,7 +489,7 @@ def write_obj2(save_path, mesh):
 
         with open(os.path.join(save_dir, save_name + '.mtl'), 'w') as wf:
             wf.write('# Created by HRN\n')
-            wf.write('newmtl material_0\n')
+            wf.write('newmtl Head\n')
             wf.write('Ka 1.000000 0.000000 0.000000\n')
             wf.write('Kd 1.000000 1.000000 1.000000\n')
             wf.write('Ks 0.000000 0.000000 0.000000\n')
@@ -521,6 +521,9 @@ def write_obj2(save_path, mesh):
                 wf.write('vn {:.6f} {:.6f} {:.6f}\n'.format(vn[0], vn[1], vn[2]))
 
         if 'faces' in mesh:
+            # Assuming all faces use the same material
+            material_name = 'Head'  # Replace with the actual material name
+
             for ind, face in enumerate(mesh['faces']):
                 if 'faces_uv' in mesh or 'faces_normal' in mesh or 'UVs' in mesh:
                     if 'faces_uv' in mesh:
@@ -531,15 +534,25 @@ def write_obj2(save_path, mesh):
                         face_normal = mesh['faces_normal'][ind]
                     else:
                         face_normal = face
+
+                    # Append the 'usemtl' statement before each face definition
+                    row = 'usemtl {}\n'.format(material_name)
+                    wf.write(row)
+
                     row = 'f ' + ' '.join([
                         '{}/{}/{}'.format(face[i], face_uv[i], face_normal[i])
                         for i in range(len(face))
                     ]) + '\n'
                 else:
+                    # Append the 'usemtl' statement before each face definition
+                    row = 'usemtl {}\n'.format(material_name)
+                    wf.write(row)
+
                     row = 'f ' + ' '.join(
-                        ['{}'.format(face[i])
-                         for i in range(len(face))]) + '\n'
+                        ['{}'.format(face[i]) for i in range(len(face))]) + '\n'
+
                 wf.write(row)
+
 
 
 def concat_mesh(mesh1, mesh2):
